@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,7 @@
     <!-- Required: JSZip to extract PPTX files on the client side -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
-:root {
+        :root {
             --bg-main: #0f1624;
             --bg-sidebar: rgba(18, 26, 38, 0.95);
             --bg-panel: rgba(255, 255, 255, 0.05);
@@ -26,7 +27,7 @@
             --radius-sm: 8px;
         }
 
-/* Draggable resize handles between panels */
+        /* Draggable resize handles between panels */
         .resize-handle {
             width: 8px;
             margin: 0 -2px;
@@ -39,6 +40,7 @@
             flex-shrink: 0;
             touch-action: none;
         }
+
         .resize-handle::after {
             content: '';
             position: absolute;
@@ -51,21 +53,25 @@
             background: rgba(255, 255, 255, 0.12);
             transition: background 0.18s ease, height 0.18s ease, top 0.18s ease;
         }
+
         .resize-handle:hover,
         .resize-handle.active {
             background: rgba(91, 140, 255, 0.12);
             box-shadow: 0 0 12px rgba(91, 140, 255, 0.25);
         }
+
         .resize-handle:hover::after,
         .resize-handle.active::after {
             background: rgba(91, 140, 255, 0.9);
             height: 100%;
             top: 0;
         }
+
         body.resizing {
             cursor: col-resize;
             user-select: none;
         }
+
         body.resizing .center-panel,
         body.resizing .left-panel,
         body.resizing .right-panel {
@@ -73,15 +79,26 @@
         }
 
         /* Custom scrollbars */
-        ::-webkit-scrollbar { width: 10px; height: 10px; }
-        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, rgba(91,140,255,0.5), rgba(124,92,255,0.5));
+            background: linear-gradient(180deg, rgba(91, 140, 255, 0.5), rgba(124, 92, 255, 0.5));
             border-radius: 999px;
             border: 2px solid transparent;
             background-clip: padding-box;
         }
-        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, rgba(91,140,255,0.8), rgba(124,92,255,0.8)); background-clip: padding-box; }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, rgba(91, 140, 255, 0.8), rgba(124, 92, 255, 0.8));
+            background-clip: padding-box;
+        }
 
         * {
             box-sizing: border-box;
@@ -92,26 +109,38 @@
 
         body {
             font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(180deg, #101627 0%, #0c1220 40%, #0b101e 100%);
+            background: #090d16;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.12) 0px, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         header {
-            background: rgba(14, 22, 34, 0.96);
-            backdrop-filter: blur(16px);
-            padding: 18px 26px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-shrink: 0;
+            height: 64px;
+            background: rgba(13, 19, 32, 0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
         }
 
-.logo {
+        .logo {
             font-size: 1.1rem;
             font-weight: 800;
             letter-spacing: 0.01em;
@@ -120,25 +149,31 @@
             align-items: center;
             gap: 12px;
         }
+
         .logo img {
             width: 38px;
             height: 38px;
             border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08);
         }
+
         .logo div {
             display: flex;
             flex-direction: column;
             gap: 2px;
         }
+
         .logo-caption {
             font-size: 0.78rem;
             color: var(--text-muted);
             letter-spacing: 0.02em;
             display: block;
         }
-        .logo span { color: var(--accent); }
+
+        .logo span {
+            color: var(--accent);
+        }
 
         .top-controls {
             display: flex;
@@ -183,8 +218,8 @@
         .header-mode-chip {
             padding: 8px 14px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -218,96 +253,289 @@
             color: #ffd6d9;
         }
 
-        button, select, input, textarea {
-            background: rgba(255,255,255,0.08);
+        button,
+        select,
+        input,
+        textarea {
+            background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.14);
             padding: 10px 14px;
             border-radius: var(--radius-md);
             font-weight: 600;
             outline: none;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
             transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
             backdrop-filter: blur(8px);
         }
+
         button {
             cursor: pointer;
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.14);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.14);
             color: var(--text-main);
         }
+
         button.primary {
             background: linear-gradient(180deg, var(--accent), var(--accent-strong));
             border-color: transparent;
             color: #fff;
             box-shadow: 0 14px 32px rgba(46, 84, 220, 0.24);
         }
+
         button.secondary {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
-            border-color: rgba(255,255,255,0.14);
+            border-color: rgba(255, 255, 255, 0.14);
         }
+
         button.danger {
             background: linear-gradient(180deg, rgba(220, 69, 59, 0.95), rgba(191, 41, 30, 0.95));
             border-color: transparent;
             color: #fff;
         }
+
         button.ghost {
             background: transparent;
-            border-color: rgba(255,255,255,0.14);
+            border-color: rgba(255, 255, 255, 0.14);
             color: var(--text-main);
         }
+
         button:hover {
             transform: translateY(-1px);
-            background: rgba(255,255,255,0.14);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.16);
+            background: rgba(255, 255, 255, 0.14);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
         }
+
         button.primary:hover {
             background: linear-gradient(180deg, #5b8bff, #2f62e2);
         }
+
         button.danger:hover {
             background: rgba(228, 85, 71, 0.98);
         }
+
         button:active {
             transform: translateY(0) scale(0.98);
         }
-        select, input, textarea {
-            background: rgba(255,255,255,0.06);
+
+        select,
+        input,
+        textarea {
+            background: rgba(255, 255, 255, 0.06);
             color: var(--text-main);
-            border-color: rgba(255,255,255,0.12);
+            border-color: rgba(255, 255, 255, 0.12);
         }
-        select:focus, input:focus, textarea:focus {
-            border-color: rgba(78,129,255,0.8);
-            box-shadow: 0 0 0 3px rgba(78,129,255,0.12);
+
+        select:focus,
+        input:focus,
+        textarea:focus {
+            border-color: rgba(78, 129, 255, 0.8);
+            box-shadow: 0 0 0 3px rgba(78, 129, 255, 0.12);
         }
+
         button:focus-visible {
-            outline: 2px solid rgba(78,129,255,0.9);
+            outline: 2px solid rgba(78, 129, 255, 0.9);
             outline-offset: 2px;
         }
 
         .workspace {
             display: flex;
             flex: 1;
-            gap: 16px;
-            padding: 18px;
-            overflow: hidden;
+            gap: 12px;
+            padding: 12px 18px;
+            min-height: calc(100vh - 64px - 38px);
+        }
+
+        /* Footer styling - Professional Software UI */
+        footer {
+            position: sticky;
+            bottom: 0;
+            z-index: 1000;
+            flex-shrink: 0;
+            height: 38px;
+            background: rgba(10, 15, 26, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            user-select: none;
+        }
+
+        .footer-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-divider {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 300;
+        }
+
+        .engine-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            font-size: 0.68rem;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .status-led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3ec06e;
+            box-shadow: 0 0 8px rgba(62, 192, 110, 0.8);
+            animation: ledPulse 2s infinite;
+        }
+
+        .status-led.offline {
+            background: #8a99ad;
+            box-shadow: none;
+            animation: none;
+        }
+
+        .status-led.live-air {
+            background: #ff4d4f;
+            box-shadow: 0 0 10px rgba(255, 77, 79, 0.9);
+            animation: ledPulseFast 0.8s infinite;
+        }
+
+        @keyframes ledPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.85);
+            }
+        }
+
+        @keyframes ledPulseFast {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.9);
+            }
+        }
+
+        .app-version {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .version-tag {
+            background: rgba(78, 129, 255, 0.18);
+            color: #709cff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border: 1px solid rgba(78, 129, 255, 0.25);
+            margin-left: 4px;
+        }
+
+        .telemetry-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .telemetry-icon {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .shortcut-pills {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .shortcut-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .shortcut-pill:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .shortcut-pill kbd {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            padding: 0 4px;
+            font-family: inherit;
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: var(--accent);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-clock {
+            font-family: "JetBrains Mono", Consolas, Monaco, monospace;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #e2e8f0;
+            letter-spacing: 0.05em;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 3px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
         }
 
         .left-panel,
         .center-panel,
         .right-panel {
-            border: 1px solid rgba(255,255,255,0.10);
+            border: 1px solid rgba(255, 255, 255, 0.10);
             border-radius: 24px;
             background: rgba(16, 24, 37, 0.9);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
             overflow: hidden;
             backdrop-filter: blur(10px);
         }
 
         .left-panel {
-            width: 360px;
+            width: 300px;
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         .resource-section,
@@ -332,11 +560,11 @@
             display: flex;
             padding: 6px;
             gap: 6px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border-bottom: 1px solid var(--border);
         }
 
-.tab {
+        .tab {
             flex: 1;
             padding: 10px 6px;
             text-align: center;
@@ -349,13 +577,18 @@
             white-space: nowrap;
             position: relative;
         }
-        .tab:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+
+        .tab:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
 
         .tab.active {
             color: var(--text-main);
             background: linear-gradient(180deg, rgba(91, 140, 255, 0.42), rgba(91, 140, 255, 0.18));
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
+
         .tab.active::after {
             content: '';
             position: absolute;
@@ -372,7 +605,7 @@
             display: flex;
             gap: 8px;
             border-bottom: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             align-items: center;
         }
 
@@ -385,7 +618,7 @@
             gap: 8px;
         }
 
-.list-item {
+        .list-item {
             padding: 12px 10px;
             background: linear-gradient(180deg, rgba(40, 57, 99, 0.95), rgba(27, 40, 72, 0.98));
             margin-bottom: 0;
@@ -394,19 +627,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid rgba(255,255,255,0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
             transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
         }
+
         .list-item:hover {
             transform: translateX(2px);
-            border-color: rgba(79,127,255,0.9);
-            background: rgba(255,255,255,0.1);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+            border-color: rgba(79, 127, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
         }
+
         .list-item.selected {
-            background: rgba(79,127,255,0.14);
-            border-color: rgba(79,127,255,0.85);
+            background: rgba(79, 127, 255, 0.14);
+            border-color: rgba(79, 127, 255, 0.85);
         }
 
         .btn-action {
@@ -416,8 +651,16 @@
             padding: 4px 8px;
             border-radius: 8px;
         }
-        .btn-action:hover { color: var(--text-main); background: rgba(255,255,255,0.08); }
-        .btn-add-schedule:hover { color: #72e5a0; background: rgba(114, 229, 160, 0.12); }
+
+        .btn-action:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-add-schedule:hover {
+            color: #72e5a0;
+            background: rgba(114, 229, 160, 0.12);
+        }
 
         .center-panel {
             flex: 1;
@@ -429,18 +672,19 @@
         .slide-grid {
             flex: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
-            padding: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+            gap: 12px;
+            padding: 14px;
             overflow-y: auto;
             align-content: start;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: var(--radius-lg);
+            min-height: 350px;
         }
 
-.slide-thumb {
+        .slide-thumb {
             aspect-ratio: 16/9;
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-lg);
             cursor: pointer;
             position: relative;
@@ -451,13 +695,14 @@
             text-align: center;
             font-size: 0.72rem;
             overflow: hidden;
-            box-shadow: 0 16px 34px rgba(0,0,0,0.18);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
             color: var(--text-main);
             font-weight: 700;
             transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.2s ease;
             animation: cardIn 0.28s ease;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
         }
+
         .slide-thumb::after {
             content: attr(data-index);
             position: absolute;
@@ -467,28 +712,37 @@
             font-size: 0.6rem;
             font-weight: 800;
             color: #fff;
-            background: rgba(0,0,0,0.55);
-            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 999px;
             padding: 2px 8px;
             backdrop-filter: blur(4px);
             letter-spacing: 0.04em;
         }
+
         .slide-thumb:hover {
             transform: translateY(-3px) scale(1.01);
-            border-color: rgba(79,127,255,0.9);
-            box-shadow: 0 18px 34px rgba(0,0,0,0.24);
+            border-color: rgba(79, 127, 255, 0.9);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
         }
+
         .slide-thumb.active {
-            border-color: rgba(79,127,255,0.95);
-            box-shadow: 0 0 0 3px rgba(79,127,255,0.16), 0 14px 30px rgba(0,0,0,0.22);
+            border-color: rgba(79, 127, 255, 0.95);
+            box-shadow: 0 0 0 3px rgba(79, 127, 255, 0.16), 0 14px 30px rgba(0, 0, 0, 0.22);
         }
-        .slide-thumb video, .slide-thumb img {
+
+        .slide-thumb video,
+        .slide-thumb img {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
             pointer-events: none;
         }
+
         .slide-content-text {
             position: relative;
             z-index: 2;
@@ -504,19 +758,22 @@
         }
 
         .deck-editor-drawer {
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border-top: 1px solid var(--border);
-            padding: 12px;
+            padding: 8px 12px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            height: 220px;
+            gap: 8px;
+            height: 140px;
+            flex-shrink: 0;
         }
+
         .deck-editor-row {
             display: flex;
             gap: 10px;
             flex: 1;
         }
+
         .deck-editor-drawer textarea {
             flex: 1;
             height: 100%;
@@ -527,6 +784,7 @@
             border-radius: 16px;
             background: rgba(5, 10, 22, 0.8);
         }
+
         .deck-editor-controls {
             display: flex;
             flex-direction: column;
@@ -535,77 +793,99 @@
         }
 
         .right-panel {
-            width: 420px;
+            width: 300px;
             display: flex;
             flex-direction: column;
+            gap: 10px;
+            flex-shrink: 0;
         }
 
-.preview-box,
+        .preview-box,
         .live-box {
             display: flex;
             flex-direction: column;
-            padding: 10px;
+            padding: 8px;
             overflow: hidden;
+            min-height: 0;
         }
-        .preview-box { flex: 1.2; border-bottom: 1px solid var(--border); }
-        .live-box { flex: 1; }
+
+        .preview-box {
+            flex: 1;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .live-box {
+            flex: 1;
+        }
 
         /* Compact preview monitor controls so the preview screen is more visible */
         .preview-controls {
-            padding: 8px;
-            gap: 8px;
+            padding: 6px;
+            gap: 6px;
             align-items: stretch;
-            background: rgba(255,255,255,0.04);
-            border-top: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         .preview-controls button,
         .preview-controls select {
-            padding: 8px 12px;
-            font-size: 0.78rem;
-            border-radius: 10px;
-            min-height: 34px;
-            border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(255,255,255,0.08);
+            padding: 6px 10px;
+            font-size: 0.74rem;
+            border-radius: 8px;
+            min-height: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
         }
+
         .preview-controls button:hover,
         .preview-controls select:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
         }
+
         .preview-controls .btn-fit,
         .preview-controls .btn-live-cta {
             width: 100%;
-            background: rgba(79,127,255,0.16);
-            border-color: rgba(79,127,255,0.24);
+            background: rgba(79, 127, 255, 0.16);
+            border-color: rgba(79, 127, 255, 0.24);
             color: var(--text-main);
         }
+
         .preview-controls .control-row {
             display: flex;
             gap: 5px;
         }
 
         .screen-container {
-            flex: 1;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 20px;
+            width: 100%;
+            aspect-ratio: 16/9;
+            max-height: 145px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            aspect-ratio: 16/9;
             background: linear-gradient(180deg, #0f1420, #0c101d 60%, #121a28);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 14px 34px rgba(0,0,0,0.28);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.28);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
+            margin: 4px 0;
         }
 
         .screen-container.is-transitioning {
             animation: screenPulse 0.45s ease;
         }
-        .screen-container video, .screen-container img {
+
+        .screen-container video,
+        .screen-container img {
             position: absolute;
-            top:0; left:0; width:100%; height:100%;
-            object-fit: cover; z-index: 1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
         }
 
         .slide-render-layer {
@@ -620,6 +900,7 @@
             justify-content: center;
             align-items: center;
         }
+
         .slide-render-layer img {
             width: 100%;
             height: 100%;
@@ -634,14 +915,15 @@
             text-align: center;
             width: 90%;
             white-space: pre-wrap;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
             z-index: 4;
         }
 
         .live-box .screen-container {
             border: 2px solid rgba(255, 90, 95, 0.85);
-            box-shadow: 0 0 0 2px rgba(255, 90, 95, 0.12), 0 12px 28px rgba(0,0,0,0.34);
+            box-shadow: 0 0 0 2px rgba(255, 90, 95, 0.12), 0 12px 28px rgba(0, 0, 0, 0.34);
         }
+
         .live-box.active-air .screen-container {
             border-color: rgba(255, 77, 79, 0.95);
             box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.24), 0 0 18px rgba(255, 77, 79, 0.4);
@@ -649,7 +931,10 @@
 
         .modal {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(4, 8, 20, 0.72);
             backdrop-filter: blur(8px);
             display: flex;
@@ -658,10 +943,14 @@
             z-index: 1000;
             visibility: hidden;
         }
-        .modal.open { visibility: visible; }
+
+        .modal.open {
+            visibility: visible;
+        }
+
         .modal-content {
             background: rgba(12, 19, 31, 0.96);
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             padding: 22px;
             border-radius: 20px;
             width: 450px;
@@ -670,7 +959,11 @@
             gap: 14px;
             box-shadow: var(--shadow);
         }
-        .modal-content textarea { height: 120px; resize: none; }
+
+        .modal-content textarea {
+            height: 120px;
+            resize: none;
+        }
 
         .bible-search-grid {
             display: grid;
@@ -678,17 +971,19 @@
             gap: 10px;
         }
 
-.bible-search-grid .full-span {
+        .bible-search-grid .full-span {
             grid-column: 1 / -1;
         }
 
         .bible-book-search {
             position: relative;
         }
+
         .bible-book-search input {
             width: 100%;
             font-size: 0.9rem;
         }
+
         .bible-book-suggestions {
             position: absolute;
             top: 100%;
@@ -696,22 +991,27 @@
             right: 0;
             z-index: 50;
             background: linear-gradient(180deg, rgba(30, 44, 78, 0.98), rgba(16, 25, 48, 0.98));
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 10px;
             margin-top: 4px;
             max-height: 180px;
             overflow-y: auto;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
             display: none;
         }
-        .bible-book-suggestions.show { display: block; }
+
+        .bible-book-suggestions.show {
+            display: block;
+        }
+
         .bible-book-suggestion {
             padding: 8px 12px;
             cursor: pointer;
             font-size: 0.85rem;
             color: var(--text-main);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
+
         .bible-book-suggestion:hover,
         .bible-book-suggestion.active {
             background: rgba(91, 140, 255, 0.35);
@@ -722,16 +1022,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 8px 10px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .panel-header {
             padding: 14px 16px;
             font-weight: 800;
-            background: rgba(255,255,255,0.08);
-            border-bottom: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
             letter-spacing: 0.03em;
             color: var(--text-main);
         }
@@ -747,14 +1047,15 @@
             gap: 10px;
             pointer-events: none;
         }
+
         .toast {
             min-width: 240px;
             max-width: 340px;
             padding: 12px 16px;
             border-radius: 14px;
             background: linear-gradient(180deg, rgba(30, 44, 78, 0.98), rgba(16, 25, 48, 0.98));
-            border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(91,140,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(91, 140, 255, 0.12);
             color: var(--text-main);
             font-size: 0.85rem;
             font-weight: 700;
@@ -764,25 +1065,63 @@
             animation: toastIn 0.3s ease;
             pointer-events: auto;
         }
-        .toast.success { border-color: rgba(47, 214, 122, 0.5); }
-        .toast.success .toast-dot { background: var(--accent-green); box-shadow: 0 0 10px rgba(47,214,122,0.6); }
-        .toast.error { border-color: rgba(255, 90, 95, 0.5); }
-        .toast.error .toast-dot { background: var(--accent-live-active); box-shadow: 0 0 10px rgba(255,90,95,0.6); }
-        .toast.info .toast-dot { background: var(--accent); box-shadow: 0 0 10px rgba(91,140,255,0.6); }
+
+        .toast.success {
+            border-color: rgba(47, 214, 122, 0.5);
+        }
+
+        .toast.success .toast-dot {
+            background: var(--accent-green);
+            box-shadow: 0 0 10px rgba(47, 214, 122, 0.6);
+        }
+
+        .toast.error {
+            border-color: rgba(255, 90, 95, 0.5);
+        }
+
+        .toast.error .toast-dot {
+            background: var(--accent-live-active);
+            box-shadow: 0 0 10px rgba(255, 90, 95, 0.6);
+        }
+
+        .toast.info .toast-dot {
+            background: var(--accent);
+            box-shadow: 0 0 10px rgba(91, 140, 255, 0.6);
+        }
+
         .toast-dot {
             width: 10px;
             height: 10px;
             min-width: 10px;
             border-radius: 999px;
         }
-        .toast.hide { animation: toastOut 0.3s ease forwards; }
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(30px) scale(0.96); }
-            to { opacity: 1; transform: translateX(0) scale(1); }
+
+        .toast.hide {
+            animation: toastOut 0.3s ease forwards;
         }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
         @keyframes toastOut {
-            from { opacity: 1; transform: translateX(0) scale(1); }
-            to { opacity: 0; transform: translateX(30px) scale(0.96); }
+            from {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(30px) scale(0.96);
+            }
         }
 
         @keyframes cardIn {
@@ -790,16 +1129,25 @@
                 opacity: 0;
                 transform: translateY(8px) scale(0.98);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
 
-@keyframes screenPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.01); }
-            100% { transform: scale(1); }
+        @keyframes screenPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.01);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Support / Donate button accent */
@@ -808,19 +1156,28 @@
             border-color: rgba(255, 215, 100, 0.6);
             color: #3a2a00;
         }
+
         #donateBtn:hover {
             background: linear-gradient(180deg, rgba(255, 205, 40, 1), rgba(240, 175, 10, 1));
             border-color: rgba(255, 225, 130, 0.9);
         }
 
         /* Feedback form modal tweaks */
-        .feedback-modal { width: 500px; }
-        .feedback-modal textarea { height: 130px; resize: none; }
+        .feedback-modal {
+            width: 500px;
+        }
+
+        .feedback-modal textarea {
+            height: 130px;
+            resize: none;
+        }
+
         .feedback-category {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
+
         .feedback-category label {
             flex: 1;
             min-width: 90px;
@@ -828,19 +1185,24 @@
             padding: 8px 6px;
             border-radius: 10px;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        .feedback-category input { display: none; }
-        .feedback-category input:checked + label {
+
+        .feedback-category input {
+            display: none;
+        }
+
+        .feedback-category input:checked+label {
             background: linear-gradient(180deg, rgba(91, 140, 255, 0.5), rgba(91, 140, 255, 0.22));
-            border-color: rgba(91,140,255,0.8);
+            border-color: rgba(91, 140, 255, 0.8);
         }
     </style>
 </head>
+
 <body>
 
     <header>
@@ -864,9 +1226,9 @@
                 <option value="gradient-blue">Ocean Gradient</option>
             </select>
             <button class="ghost" onclick="openThemeManagerModal()">Themes</button>
+            <button class="ghost" id="extendedBtn" onclick="toggleExtendedScreenTwice()">Stage Display</button>
             <button class="primary" id="donateBtn" onclick="openDonate()" title="Support this project">Support</button>
             <button class="secondary" id="feedbackBtn" onclick="openFeedbackModal()">Feedback</button>
-            <button class="ghost" id="extendedBtn" onclick="toggleExtendedScreenTwice()">Stage Display</button>
         </div>
     </header>
 
@@ -881,11 +1243,14 @@
                     <div class="tab" id="tab-presentation" onclick="switchTab('presentation')">Presentations</div>
                 </div>
                 <div class="action-bar">
-                    <input type="text" id="searchBox" placeholder="Quick Search..." oninput="filterActiveDatabase()" style="flex:1;">
+                    <input type="text" id="searchBox" placeholder="Quick Search..." oninput="filterActiveDatabase()"
+                        style="flex:1;">
                     <button id="addLibraryBtn" onclick="openEditorModal()">+ New</button>
-                    <button id="bibleSearchBtn" onclick="openBibleSearchModal()" style="display:none;">Search Scripture</button>
+                    <button id="bibleSearchBtn" onclick="openBibleSearchModal()" style="display:none;">Search
+                        Scripture</button>
                     <!-- PowerPoint File Input -->
-                    <input type="file" id="pptxFileInput" accept=".pptx" style="display:none;" onchange="handlePptxUpload(event)">
+                    <input type="file" id="pptxFileInput" accept=".pptx" style="display:none;"
+                        onchange="handlePptxUpload(event)">
                 </div>
                 <div class="list-container" id="resourceList"></div>
             </div>
@@ -894,9 +1259,10 @@
             <div class="schedule-section">
                 <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center;">
                     <span>Service Order</span>
-                    <button onclick="clearWholeSchedule()" style="padding: 2px 6px; font-size: 0.75rem;">Clear All</button>
+                    <button onclick="clearWholeSchedule()" style="padding: 2px 6px; font-size: 0.75rem;">Clear
+                        All</button>
                 </div>
-<div class="list-container" id="scheduleList" style="background: #15151b;"></div>
+                <div class="list-container" id="scheduleList" style="background: #15151b;"></div>
             </div>
         </div>
 
@@ -906,19 +1272,24 @@
         <div class="center-panel">
             <div class="panel-header" id="activeDeckTitle">No active deck selected</div>
             <div class="slide-grid" id="slideMatrix"></div>
-            
+
             <!-- Inline Slide Editor Dashboard Subsystem -->
             <div class="deck-editor-drawer" id="deckEditorDrawer" style="display: none;">
-                <div style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); display:flex; justify-content:space-between;">
+                <div
+                    style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted); display:flex; justify-content:space-between;">
                     <span>INLINE DECK TRACK EDITOR</span>
                     <span id="editorSlideCounter">Slide 1 of 1</span>
                 </div>
                 <div class="deck-editor-row">
-                    <textarea id="deckEditorTextArea" placeholder="Select a slide above to edit its live text properties..." oninput="updateActiveSlideTextLive()"></textarea>
+                    <textarea id="deckEditorTextArea"
+                        placeholder="Select a slide above to edit its live text properties..."
+                        oninput="updateActiveSlideTextLive()"></textarea>
                     <div class="deck-editor-controls">
-                        <button id="editorAddBtn" onclick="addNewSlideToDeck()" style="background: #28a745; border-color: #218838;">+ Add Slide</button>
-                        <button id="editorDelBtn" onclick="deleteCurrentSlideFromDeck()" style="background: #dc3545; border-color: #bd2130;">Delete Slide</button>
-</div>
+                        <button id="editorAddBtn" onclick="addNewSlideToDeck()"
+                            style="background: #28a745; border-color: #218838;">+ Add Slide</button>
+                        <button id="editorDelBtn" onclick="deleteCurrentSlideFromDeck()"
+                            style="background: #dc3545; border-color: #bd2130;">Delete Slide</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -933,10 +1304,10 @@
                     <div class="slide-render-layer" id="previewSlideRender"></div>
                     <div class="screen-text" id="previewText"></div>
                 </div>
-<div class="action-bar preview-controls" style="flex-direction:column; align-items:stretch;">
+                <div class="action-bar preview-controls" style="flex-direction:column; align-items:stretch;">
                     <button id="btnFitScreen" class="btn-fit" onclick="toggleFitMode()">Smart Fit: On</button>
                     <div class="control-row">
-<select id="fontSizeSelect" style="flex:1;" onchange="applyFontSettings()">
+                        <select id="fontSizeSelect" style="flex:1;" onchange="applyFontSettings()">
                             <option value="tiny">Font: Tiny</option>
                             <option value="small">Font: Small</option>
                             <option value="medium" selected>Font: Medium</option>
@@ -950,26 +1321,67 @@
                             <option value="monospace">Type: Mono</option>
                         </select>
                     </div>
-                    <button id="btnToggleLive" class="btn-live-cta" style="transition: background 0.2s;" onclick="toggleLiveState()">Go Live (F5)</button>
+                    <button id="btnToggleLive" class="btn-live-cta" style="transition: background 0.2s;"
+                        onclick="toggleLiveState()">Go Live (F5)</button>
                 </div>
             </div>
             <div class="live-box" id="liveBoxContainer">
-                <div class="panel-header" id="livePanelHeader" style="color: var(--text-muted);">Live Channel Output (OFF AIR)</div>
+                <div class="panel-header" id="livePanelHeader" style="color: var(--text-muted);">Live Channel Output
+                    (OFF AIR)</div>
                 <div class="screen-container" id="liveWindow">
                     <div class="slide-render-layer" id="liveSlideRender"></div>
                     <div class="screen-text" id="liveText"></div>
                 </div>
-                <div class="action-bar"><button style="background: #444; width:100%;" onclick="killLiveScreen()">Clear Output</button></div>
+                <div class="action-bar"><button style="background: #444; width:100%;" onclick="killLiveScreen()">Clear
+                        Output</button></div>
             </div>
         </div>
     </div>
+
+    <!-- Beautiful UI Footer -->
+    <footer>
+        <div class="footer-section footer-left">
+            <div class="engine-status" title="Presentation Operations Engine">
+                <span class="status-led" id="footerLed"></span>
+                <span id="footerEngineText">ENGINE READY</span>
+            </div>
+            <span class="footer-divider">|</span>
+            <span class="app-version">SAMDEV Studio <span class="version-tag">PRO v2.5</span></span>
+        </div>
+
+        <div class="footer-section footer-center">
+            <div class="telemetry-item" id="footerActiveDeck">
+                <span class="telemetry-icon">📑</span>
+                <span id="footerDeckText">No Active Deck</span>
+            </div>
+            <span class="footer-divider">•</span>
+            <div class="telemetry-item">
+                <span class="telemetry-icon">🖥️</span>
+                <span id="footerStageStatus">Stage Window: Ready</span>
+            </div>
+        </div>
+
+        <div class="footer-section footer-right">
+            <div class="shortcut-pills">
+                <span class="shortcut-pill" onclick="toggleLiveState()"
+                    title="Press F5 to Toggle Live Stream"><kbd>F5</kbd> Live</span>
+                <span class="shortcut-pill" onclick="toggleExtendedScreenTwice()"
+                    title="Press F8 to Toggle Stage Display"><kbd>F8</kbd> Stage</span>
+                <span class="shortcut-pill" onclick="killLiveScreen()"
+                    title="Click or Press Esc to Clear Live Output"><kbd>Esc</kbd> Clear</span>
+            </div>
+            <span class="footer-divider">|</span>
+            <div class="footer-clock" id="liveClockDisplay">--:--:--</div>
+        </div>
+    </footer>
 
     <!-- Asset Library Manager Editor Modal -->
     <div class="modal" id="editorModal">
         <div class="modal-content">
             <h3>Add New Content</h3>
             <input type="text" id="entryTitle" placeholder="Title or reference">
-            <textarea id="entryContent" placeholder="Enter content for the slide deck. Use blank lines to separate slides."></textarea>
+            <textarea id="entryContent"
+                placeholder="Enter content for the slide deck. Use blank lines to separate slides."></textarea>
             <div style="display:flex; gap:10px; justify-content: flex-end;">
                 <button onclick="closeEditorModal()" style="background:#555;">Cancel</button>
                 <button onclick="saveResourceEntry()" style="background:var(--accent);">Save to Library</button>
@@ -977,13 +1389,15 @@
         </div>
     </div>
 
-<!-- KJV Bible Search Modal -->
+    <!-- KJV Bible Search Modal -->
     <div class="modal" id="bibleModal" onkeydown="handleBibleModalKeydown(event)">
         <div class="modal-content">
             <h3>KJV Bible Search</h3>
             <div class="bible-search-grid">
                 <div class="bible-book-search full-span">
-                    <input type="text" id="bibleBookInput" placeholder="Type book name (e.g. John, Romans)..." autocomplete="off" oninput="filterBibleBooks()" onfocus="showBibleSuggestions()" onblur="hideBibleSuggestionsDelayed()">
+                    <input type="text" id="bibleBookInput" placeholder="Type book name (e.g. John, Romans)..."
+                        autocomplete="off" oninput="filterBibleBooks()" onfocus="showBibleSuggestions()"
+                        onblur="hideBibleSuggestionsDelayed()">
                     <div id="bibleBookSuggestions" class="bible-book-suggestions"></div>
                 </div>
                 <input type="number" id="bibleChapterInput" min="1" placeholder="Chapter (Tab)">
@@ -1001,17 +1415,21 @@
     <div class="modal" id="themeModal">
         <div class="modal-content">
             <h3>Theme Manager</h3>
-            <button onclick="document.getElementById('themeFileInput').click()" style="background: var(--accent); width: 100%;">+ Upload New Video/Image Theme</button>
-            <input type="file" id="themeFileInput" accept="video/*,image/*" style="display:none;" onchange="handleThemeUpload(event)">
-            <div style="font-size:0.85rem; margin-top:10px; font-weight:bold; color:var(--text-muted)">Uploaded Custom Themes:</div>
-            <div id="customThemeList" style="max-height: 200px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
-<div style="display:flex; justify-content: flex-end; margin-top:10px;">
+            <button onclick="document.getElementById('themeFileInput').click()"
+                style="background: var(--accent); width: 100%;">+ Upload New Video/Image Theme</button>
+            <input type="file" id="themeFileInput" accept="video/*,image/*" style="display:none;"
+                onchange="handleThemeUpload(event)">
+            <div style="font-size:0.85rem; margin-top:10px; font-weight:bold; color:var(--text-muted)">Uploaded Custom
+                Themes:</div>
+            <div id="customThemeList"
+                style="max-height: 200px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
+            <div style="display:flex; justify-content: flex-end; margin-top:10px;">
                 <button onclick="closeThemeManagerModal()" style="background:#555;">Close</button>
             </div>
         </div>
     </div>
 
-<!-- Toast notification container for user feedback -->
+    <!-- Toast notification container for user feedback -->
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- Support Details Modal -->
@@ -1021,14 +1439,17 @@
             <div style="font-size:0.95rem; color:var(--text-main); line-height:1.6;">
                 Thank you for supporting this project. Use the details below to send a contribution.
             </div>
-            <div id="supportDetails" style="display:flex; flex-direction:column; gap:10px; padding: 10px 0; font-size:0.95rem;">
+            <div id="supportDetails"
+                style="display:flex; flex-direction:column; gap:10px; padding: 10px 0; font-size:0.95rem;">
                 <div><strong>Account Name:</strong> Adebayo Samuel Oluwaseun</div>
                 <div><strong>Account No.:</strong> 8091509041</div>
                 <div><strong>Bank Name:</strong> OPAY</div>
             </div>
             <div style="display:flex; gap:10px; justify-content: flex-end; flex-wrap: wrap;">
                 <button onclick="copySupportDetails()" style="background:var(--accent);">Copy Details</button>
-                <a href="mailto:?subject=Support%20SAMDEV%20Studio&body=Account%20Name%3A%20Adebayo%20Samuel%20Oluwaseun%0AAccount%20No.%3A%208091509041%0ABank%20Name%3A%20OPAY" style="display:inline-flex; align-items:center; justify-content:center; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,0.08); color: var(--text-main); text-decoration:none; border: 1px solid rgba(255,255,255,0.12);">Email Details</a>
+                <a href="mailto:?subject=Support%20SAMDEV%20Studio&body=Account%20Name%3A%20Adebayo%20Samuel%20Oluwaseun%0AAccount%20No.%3A%208091509041%0ABank%20Name%3A%20OPAY"
+                    style="display:inline-flex; align-items:center; justify-content:center; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,0.08); color: var(--text-main); text-decoration:none; border: 1px solid rgba(255,255,255,0.12);">Email
+                    Details</a>
                 <button onclick="closeSupportModal()" style="background:#555;">Close</button>
             </div>
         </div>
@@ -1058,25 +1479,25 @@
     <script>
         let appDatastore = {
             songs: [
-                { id: 1, type:'songs', title: "Amazing Grace", lines: ["Amazing grace! How sweet the sound\nThat saved a wretch like me!", "I once was lost, but now am found;\nWas blind, but now I see."] }
+                { id: 1, type: 'songs', title: "Amazing Grace", lines: ["Amazing grace! How sweet the sound\nThat saved a wretch like me!", "I once was lost, but now am found;\nWas blind, but now I see."] }
             ],
             scripture: [
-                { id: 2, type:'scripture', title: "Psalm 23:1", lines: ["The Lord is my shepherd;\nI shall not want."] }
+                { id: 2, type: 'scripture', title: "Psalm 23:1", lines: ["The Lord is my shepherd;\nI shall not want."] }
             ],
             media: [
-                { id: 3, type:'media', title: "Welcome Presentation Announcement", lines: ["Welcome to SAMDEV Live Studio\nService is about to begin."] }
+                { id: 3, type: 'media', title: "Welcome Presentation Announcement", lines: ["Welcome to SAMDEV Live Studio\nService is about to begin."] }
             ],
-            presentation: [] 
+            presentation: []
         };
 
-        let customThemes = {}; 
-        let serviceSchedule = []; 
-        
+        let customThemes = {};
+        let serviceSchedule = [];
+
         let activeTab = 'songs';
-        let currentItem = null; 
+        let currentItem = null;
         let selectedSlideIdx = 0;
 
-        let isLiveActive = false; 
+        let isLiveActive = false;
         let liveDeck = [];
         let liveSlideIdx = 0;
         let activeThemeConfig = { type: 'color', value: '#000000' };
@@ -1085,11 +1506,11 @@
         let currentFontSize = 'medium';
         let currentFontType = 'sans-serif';
         const kjvBooks = [
-            'Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi',
-            'Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'
+            'Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth', '1 Samuel', '2 Samuel', '1 Kings', '2 Kings', '1 Chronicles', '2 Chronicles', 'Ezra', 'Nehemiah', 'Esther', 'Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Song of Solomon', 'Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel', 'Daniel', 'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi',
+            'Matthew', 'Mark', 'Luke', 'John', 'Acts', 'Romans', '1 Corinthians', '2 Corinthians', 'Galatians', 'Ephesians', 'Philippians', 'Colossians', '1 Thessalonians', '2 Thessalonians', '1 Timothy', '2 Timothy', 'Titus', 'Philemon', 'Hebrews', 'James', '1 Peter', '2 Peter', '1 John', '2 John', '3 John', 'Jude', 'Revelation'
         ];
 
-let projectorWindow = null;
+        let projectorWindow = null;
 
         const STORAGE_KEY = 'samdev_worship_state_v1';
 
@@ -1131,7 +1552,7 @@ let projectorWindow = null;
             }
         }
 
-function showToast(message, type = 'info', duration = 3000) {
+        function showToast(message, type = 'info', duration = 3000) {
             const container = document.getElementById('toastContainer');
             if (!container) return;
             const toast = document.createElement('div');
@@ -1182,13 +1603,26 @@ function showToast(message, type = 'info', duration = 3000) {
             showToast(`Feedback (${category}) received — thank you!`, 'success');
         }
 
-function init() {
+        function startLiveClock() {
+            function tick() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const dateStr = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const clockEl = document.getElementById('liveClockDisplay');
+                if (clockEl) clockEl.innerText = `${dateStr} • ${timeStr}`;
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+
+        function init() {
             loadState();
             renderResourceSidebar();
             renderScheduleSidebar();
             updateDeckModeBadge();
             updateLiveUIElements();
-setupResizeHandles();
+            setupResizeHandles();
+            startLiveClock();
         }
 
         /* Make the left and right panels resizable by dragging the vertical handles */
@@ -1199,10 +1633,10 @@ setupResizeHandles();
             const leftHandle = document.querySelector('[data-resize="left"]');
             const rightHandle = document.querySelector('[data-resize="right"]');
 
-            const LEFT_MIN = 240;
-            const LEFT_MAX = 560;
-            const RIGHT_MIN = 300;
-            const RIGHT_MAX = 640;
+            const LEFT_MIN = 220;
+            const LEFT_MAX = 520;
+            const RIGHT_MIN = 260;
+            const RIGHT_MAX = 560;
 
             function stopResize() {
                 document.body.classList.remove('resizing');
@@ -1262,7 +1696,7 @@ setupResizeHandles();
             deckModeBadge.style.background = 'rgba(91, 140, 255, 0.28)';
         }
 
-function switchTab(tabKey) {
+        function switchTab(tabKey) {
             activeTab = tabKey;
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(`tab-${tabKey}`).classList.add('active');
@@ -1328,7 +1762,7 @@ function switchTab(tabKey) {
         function addItemToSchedule(id, tabType) {
             const asset = appDatastore[tabType].find(i => i.id === id);
             if (!asset) return;
-            
+
             const scheduleItem = {
                 scheduleId: Date.now() + Math.random().toString(36).substr(2, 5),
                 id: asset.id,
@@ -1337,7 +1771,7 @@ function switchTab(tabKey) {
                 type: tabType
             };
 
-serviceSchedule.push(scheduleItem);
+            serviceSchedule.push(scheduleItem);
             saveState();
             renderScheduleSidebar();
             loadScheduledItemToDesk(scheduleItem.scheduleId);
@@ -1346,8 +1780,8 @@ serviceSchedule.push(scheduleItem);
         function renderScheduleSidebar() {
             const container = document.getElementById('scheduleList');
             container.innerHTML = '';
-            
-            if(serviceSchedule.length === 0) {
+
+            if (serviceSchedule.length === 0) {
                 container.innerHTML = `<div style="color:var(--text-muted); padding:10px; font-size:0.8rem; text-align:center;">Your service order is empty. Use the arrow button to add items to the queue.</div>`;
                 return;
             }
@@ -1376,7 +1810,7 @@ serviceSchedule.push(scheduleItem);
             updateDeckModeBadge();
             updatePreviewMonitor();
             renderScheduleSidebar();
-            
+
             if (isLiveActive) triggerLiveAction();
         }
 
@@ -1390,7 +1824,7 @@ serviceSchedule.push(scheduleItem);
                 document.getElementById('activeDeckTitle').innerText = 'No Deck Active';
                 clearPreviewsAndLiveElements();
             }
-updateDeckModeBadge();
+            updateDeckModeBadge();
             saveState();
             renderScheduleSidebar();
         }
@@ -1401,7 +1835,7 @@ updateDeckModeBadge();
             closeDeckEditorUI();
             document.getElementById('slideMatrix').innerHTML = '';
             document.getElementById('activeDeckTitle').innerText = 'No Deck Active';
-clearPreviewsAndLiveElements();
+            clearPreviewsAndLiveElements();
             updateDeckModeBadge();
             saveState();
             renderScheduleSidebar();
@@ -1425,7 +1859,7 @@ clearPreviewsAndLiveElements();
             renderSlideMatrixGrid();
             updateDeckModeBadge();
             updatePreviewMonitor();
-            
+
             if (isLiveActive) triggerLiveAction();
         }
 
@@ -1441,7 +1875,7 @@ clearPreviewsAndLiveElements();
         function updateDeckEditorTextDisplay() {
             const txtArea = document.getElementById('deckEditorTextArea');
             const counter = document.getElementById('editorSlideCounter');
-            
+
             if (!currentItem || currentItem.lines.length === 0) {
                 txtArea.value = '';
                 counter.innerText = 'Slide 0 of 0';
@@ -1454,7 +1888,7 @@ clearPreviewsAndLiveElements();
         function updateActiveSlideTextLive() {
             if (!currentItem) return;
             const textVal = document.getElementById('deckEditorTextArea').value;
-            
+
             currentItem.lines[selectedSlideIdx] = textVal;
             syncDeskChangesToDatabase();
 
@@ -1472,7 +1906,7 @@ clearPreviewsAndLiveElements();
 
         function addNewSlideToDeck() {
             if (!currentItem) return;
-            
+
             currentItem.lines.push("New slide content placeholder");
             selectedSlideIdx = currentItem.lines.length - 1;
 
@@ -1510,9 +1944,9 @@ clearPreviewsAndLiveElements();
                 if (schTarget) {
                     schTarget.lines = [...currentItem.lines];
                 }
-            } 
-            
-let libTarget = appDatastore[currentItem.type].find(i => i.id === currentItem.id);
+            }
+
+            let libTarget = appDatastore[currentItem.type].find(i => i.id === currentItem.id);
             if (libTarget) {
                 libTarget.lines = [...currentItem.lines];
             }
@@ -1526,7 +1960,7 @@ let libTarget = appDatastore[currentItem.type].find(i => i.id === currentItem.id
         }
         function closeEditorModal() { document.getElementById('editorModal').classList.remove('open'); }
 
-function openBibleSearchModal() {
+        function openBibleSearchModal() {
             document.getElementById('bibleBookInput').value = '';
             document.getElementById('bibleChapterInput').value = '';
             document.getElementById('bibleVerseInput').value = '';
@@ -1642,10 +2076,10 @@ function openBibleSearchModal() {
                     id: Date.now(),
                     type: 'scripture',
                     title: `${verseTitle} (KJV)`,
-lines: [verseText.trim()]
+                    lines: [verseText.trim()]
                 };
 
-appDatastore.scripture.push(newAsset);
+                appDatastore.scripture.push(newAsset);
                 saveState();
                 closeBibleSearchModal();
                 renderResourceSidebar();
@@ -1662,17 +2096,17 @@ appDatastore.scripture.push(newAsset);
             if (!title || !rawContent) return alert('Please complete both title and content fields.');
 
             const splitLines = rawContent.split(/\n\s*\n/).map(l => l.trim());
-// Display the entire content on a single slide by default (no auto-splitting).
+            // Display the entire content on a single slide by default (no auto-splitting).
             const newAsset = { id: Date.now(), type: activeTab, title: title, lines: [rawContent] };
 
-appDatastore[activeTab].push(newAsset);
+            appDatastore[activeTab].push(newAsset);
             saveState();
             closeEditorModal();
             renderResourceSidebar();
             loadItemToDesk(newAsset.id, activeTab);
         }
 
-        /* 
+        /*
          * Robust pure JSZip PPTX text extractor.
          * Extracts actual structured presentation content directly without rendering onto a canvas.
          */
@@ -1683,9 +2117,9 @@ appDatastore[activeTab].push(newAsset);
             try {
                 const arrayBuffer = await file.arrayBuffer();
                 const zip = await JSZip.loadAsync(arrayBuffer);
-                
+
                 // Track presentation metadata
-                let slideFiles = Object.keys(zip.files).filter(path => 
+                let slideFiles = Object.keys(zip.files).filter(path =>
                     path.startsWith("ppt/slides/slide") && path.endsWith(".xml")
                 );
 
@@ -1706,11 +2140,11 @@ appDatastore[activeTab].push(newAsset);
                 for (let fileRoute of slideFiles) {
                     const content = await zip.files[fileRoute].async("text");
                     const xmlDoc = parser.parseFromString(content, "application/xml");
-                    
+
                     // Parse out text runs (<a:t> XML nodes represent text fields inside PowerPoint shapes)
                     const textNodes = xmlDoc.getElementsByTagName("a:t");
                     let slideText = [];
-                    
+
                     for (let node of textNodes) {
                         if (node.textContent.trim()) {
                             slideText.push(node.textContent.trim());
@@ -1733,7 +2167,7 @@ appDatastore[activeTab].push(newAsset);
                     lines: extractedSlides
                 };
 
-appDatastore.presentation.push(newPresentationAsset);
+                appDatastore.presentation.push(newPresentationAsset);
                 saveState();
                 renderResourceSidebar();
                 loadItemToDesk(newPresentationAsset.id, 'presentation');
@@ -1755,7 +2189,7 @@ appDatastore.presentation.push(newPresentationAsset);
                 closeDeckEditorUI();
                 document.getElementById('slideMatrix').innerHTML = '';
                 document.getElementById('activeDeckTitle').innerText = 'No Deck Active';
-clearPreviewsAndLiveElements();
+                clearPreviewsAndLiveElements();
             }
             saveState();
             renderResourceSidebar();
@@ -1775,12 +2209,12 @@ clearPreviewsAndLiveElements();
             const type = file.type.startsWith('video') ? 'video' : 'image';
             const themeKey = `custom-${Date.now()}`;
 
-customThemes[themeKey] = { name: file.name, type: type, value: fileURL };
+            customThemes[themeKey] = { name: file.name, type: type, value: fileURL };
             saveState();
-            
+
             updateThemeDropdownOptions();
             renderThemeManagerList();
-            
+
             document.getElementById('themeDropdown').value = themeKey;
             applyGlobalTheme();
         }
@@ -1804,7 +2238,7 @@ customThemes[themeKey] = { name: file.name, type: type, value: fileURL };
             container.innerHTML = '';
             const keys = Object.keys(customThemes);
 
-            if(keys.length === 0) {
+            if (keys.length === 0) {
                 container.innerHTML = `<div style="text-align:center; padding:10px; color:var(--text-muted); font-size:0.8rem;">No custom local file media layers uploaded yet.</div>`;
                 return;
             }
@@ -1821,13 +2255,13 @@ customThemes[themeKey] = { name: file.name, type: type, value: fileURL };
         }
 
         function deleteCustomTheme(key) {
-            if(customThemes[key]) {
+            if (customThemes[key]) {
                 URL.revokeObjectURL(customThemes[key].value);
                 delete customThemes[key];
             }
 
             const dropdown = document.getElementById('themeDropdown');
-if (dropdown.value === key) {
+            if (dropdown.value === key) {
                 dropdown.value = 'solid-black';
                 applyGlobalTheme();
             }
@@ -1845,7 +2279,7 @@ if (dropdown.value === key) {
 
             injectThemeBackground(document.getElementById('previewWindow'), activeThemeConfig);
             injectThemeBackground(document.getElementById('liveWindow'), activeThemeConfig);
-            
+
             if (currentItem) renderSlideMatrixGrid();
             if (isLiveActive) syncLiveOutputChannel();
         }
@@ -1878,17 +2312,17 @@ if (dropdown.value === key) {
             matrix.innerHTML = '';
             if (!currentItem) return;
 
-currentItem.lines.forEach((text, idx) => {
+            currentItem.lines.forEach((text, idx) => {
                 const thumb = document.createElement('div');
                 thumb.className = `slide-thumb ${idx === selectedSlideIdx ? 'active' : ''}`;
                 thumb.dataset.index = idx + 1;
-                
+
                 injectThemeBackground(thumb, activeThemeConfig);
 
                 const wrapper = document.createElement('div');
                 wrapper.className = 'slide-content-text';
                 wrapper.innerHTML = text.replace(/\n/g, '<br>');
-                
+
                 thumb.appendChild(wrapper);
 
                 thumb.onclick = () => {
@@ -1922,7 +2356,7 @@ currentItem.lines.forEach((text, idx) => {
             element.style.justifyContent = 'center';
             element.style.fontFamily = currentFontType;
 
-let fontSize = 1.9;
+            let fontSize = 1.9;
             if (currentFontSize === 'tiny') fontSize = 1.0;
             if (currentFontSize === 'small') fontSize = 1.4;
             if (currentFontSize === 'medium') fontSize = 1.9;
@@ -1959,7 +2393,7 @@ let fontSize = 1.9;
         function updatePreviewMonitor() {
             const thumbs = document.querySelectorAll('.slide-thumb');
             thumbs.forEach((t, idx) => t.classList.toggle('active', idx === selectedSlideIdx));
-            
+
             const previewText = document.getElementById('previewText');
             const previewWindow = document.getElementById('previewWindow');
             const previewRender = document.getElementById('previewSlideRender');
@@ -1977,6 +2411,15 @@ let fontSize = 1.9;
                 previewText.innerText = '';
                 previewText.style.fontSize = '1.2rem';
                 previewText.style.textAlign = textAlignment;
+            }
+
+            const footerDeckText = document.getElementById('footerDeckText');
+            if (footerDeckText) {
+                if (currentItem) {
+                    footerDeckText.innerText = `${currentItem.title} (Slide ${selectedSlideIdx + 1}/${currentItem.lines.length})`;
+                } else {
+                    footerDeckText.innerText = 'No Active Deck';
+                }
             }
 
             updateDeckEditorTextDisplay();
@@ -1998,6 +2441,8 @@ let fontSize = 1.9;
             const liveBox = document.getElementById('liveBoxContainer');
             const liveHeader = document.getElementById('livePanelHeader');
             const headerLiveBadge = document.getElementById('headerLiveBadge');
+            const footerLed = document.getElementById('footerLed');
+            const footerEngineText = document.getElementById('footerEngineText');
 
             if (isLiveActive) {
                 toggleBtn.innerText = "Cut Live Stream (F5)";
@@ -2008,6 +2453,8 @@ let fontSize = 1.9;
                 headerLiveBadge.innerText = 'LIVE';
                 headerLiveBadge.style.background = 'rgba(255, 90, 95, 0.18)';
                 headerLiveBadge.style.color = '#ffd6d9';
+                if (footerLed) footerLed.className = 'status-led live-air';
+                if (footerEngineText) footerEngineText.innerText = 'LIVE ON AIR';
                 document.querySelector('.screen-container#liveWindow').style.animation = 'screenPulse 1.4s infinite';
             } else {
                 toggleBtn.innerText = "Go Live (F5)";
@@ -2018,6 +2465,8 @@ let fontSize = 1.9;
                 headerLiveBadge.innerText = 'Offline';
                 headerLiveBadge.style.background = 'rgba(91, 140, 255, 0.18)';
                 headerLiveBadge.style.color = 'var(--text-main)';
+                if (footerLed) footerLed.className = 'status-led';
+                if (footerEngineText) footerEngineText.innerText = 'ENGINE READY';
                 document.querySelector('.screen-container#liveWindow').style.animation = 'none';
             }
         }
@@ -2035,7 +2484,7 @@ let fontSize = 1.9;
             const liveWindow = document.getElementById('liveWindow');
             liveText.innerText = text;
             fitTextElement(liveText, text);
-            
+
             liveWindow.classList.add('is-transitioning');
             clearTimeout(window.liveTransitionTimer);
             window.liveTransitionTimer = setTimeout(() => liveWindow.classList.remove('is-transitioning'), 450);
@@ -2048,7 +2497,7 @@ let fontSize = 1.9;
                 const display = winDoc.getElementById('display');
                 const container = winDoc.getElementById('stageContainer');
                 const projRender = winDoc.getElementById('projSlideRender');
-                
+
                 if (display && container && projRender) {
                     display.innerText = text;
                     fitTextElement(display, text);
@@ -2076,6 +2525,8 @@ let fontSize = 1.9;
                 projectorWindow.close();
             }
             projectorWindow = null;
+            const footerStageStatus = document.getElementById('footerStageStatus');
+            if (footerStageStatus) footerStageStatus.innerText = 'Stage Window: Ready';
         }
 
         function toggleExtendedScreenTwice() {
@@ -2122,6 +2573,9 @@ let fontSize = 1.9;
                 }
             }
 
+            const footerStageStatus = document.getElementById('footerStageStatus');
+            if (footerStageStatus) footerStageStatus.innerText = 'Stage Window: Active';
+
             projectorWindow.document.write(`
                 <html>
                 <head>
@@ -2148,14 +2602,15 @@ let fontSize = 1.9;
                 syncLiveOutputChannel();
                 try {
                     projectorWindow.document.documentElement.requestFullscreen();
-                } catch(e) {}
+                } catch (e) { }
             }, 400);
         }
 
         window.addEventListener('keydown', (e) => {
             if (e.key === 'F5') { e.preventDefault(); toggleLiveState(); }
             if (e.key === 'F8') { e.preventDefault(); toggleExtendedScreenTwice(); }
-            
+            if (e.key === 'Escape' && isLiveActive) { e.preventDefault(); killLiveScreen(); }
+
             if (isLiveActive) {
                 if (e.key === 'ArrowDown' || e.key === 'PageDown') {
                     if (liveSlideIdx < liveDeck.length - 1) { liveSlideIdx++; syncLiveOutputChannel(); }
@@ -2169,4 +2624,5 @@ let fontSize = 1.9;
         window.onload = init;
     </script>
 </body>
+
 </html>

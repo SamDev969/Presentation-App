@@ -212,9 +212,25 @@
 
         .header-actions {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+            max-width: 100%;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .header-actions::-webkit-scrollbar {
+            display: none;
+        }
+
+        .header-actions button,
+        .header-actions select {
+            height: 36px;
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .header-mode-chip {
@@ -262,59 +278,158 @@
             background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.14);
-            padding: 10px 14px;
+            padding: 8px 14px;
             border-radius: var(--radius-md);
             font-weight: 600;
+            font-size: 0.82rem;
             outline: none;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
-            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.2s ease, color 0.15s ease;
             backdrop-filter: blur(8px);
+            box-sizing: border-box;
         }
 
         button {
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            white-space: nowrap;
+            line-height: 1.2;
+            max-width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            flex-shrink: 0;
+            user-select: none;
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.14);
             color: var(--text-main);
         }
 
-        button.primary {
-            background: linear-gradient(180deg, var(--accent), var(--accent-strong));
-            border-color: transparent;
-            color: #fff;
-            box-shadow: 0 14px 32px rgba(46, 84, 220, 0.24);
+        /* Button Size Utilities */
+        .btn-xs {
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            border-radius: 6px;
+            height: 26px;
+            min-height: 26px;
         }
 
-        button.secondary {
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 0.76rem;
+            border-radius: var(--radius-sm);
+            height: 32px;
+            min-height: 32px;
+        }
+
+        .btn-md {
+            padding: 8px 14px;
+            font-size: 0.82rem;
+            border-radius: var(--radius-md);
+            height: 38px;
+            min-height: 38px;
+        }
+
+        .btn-lg {
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            border-radius: var(--radius-md);
+            height: 44px;
+            min-height: 44px;
+        }
+
+        .btn-block {
+            width: 100%;
+            display: flex;
+        }
+
+        /* Button Color Variants */
+        button.primary,
+        .btn-primary {
+            background: linear-gradient(135deg, #4e81ff 0%, #2f61d1 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 4px 16px rgba(46, 84, 220, 0.35);
+        }
+
+        button.primary:hover,
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #608eff 0%, #366bf0 100%);
+            box-shadow: 0 6px 20px rgba(46, 84, 220, 0.48);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        button.secondary,
+        .btn-secondary {
             background: rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
             border-color: rgba(255, 255, 255, 0.14);
+            color: var(--text-main);
         }
 
-        button.danger {
-            background: linear-gradient(180deg, rgba(220, 69, 59, 0.95), rgba(191, 41, 30, 0.95));
-            border-color: transparent;
-            color: #fff;
+        button.secondary:hover,
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
-        button.ghost {
+        button.success,
+        .btn-success {
+            background: linear-gradient(135deg, #28c76f 0%, #1f9d55 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(40, 199, 111, 0.3);
+        }
+
+        button.success:hover,
+        .btn-success:hover {
+            background: linear-gradient(135deg, #32d67a 0%, #22aa5d 100%);
+            box-shadow: 0 6px 18px rgba(40, 199, 111, 0.42);
+        }
+
+        button.danger,
+        .btn-danger {
+            background: linear-gradient(135deg, #ff4d4f 0%, #dc2626 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+        }
+
+        button.danger:hover,
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #ff6163 0%, #ef4444 100%);
+            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.42);
+        }
+
+        button.ghost,
+        .btn-ghost {
             background: transparent;
             border-color: rgba(255, 255, 255, 0.14);
             color: var(--text-main);
         }
 
+        button.ghost:hover,
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .btn-subtle-danger {
+            background: rgba(255, 77, 79, 0.12);
+            border: 1px solid rgba(255, 77, 79, 0.25);
+            color: #ff7875;
+        }
+
+        .btn-subtle-danger:hover {
+            background: rgba(255, 77, 79, 0.22);
+            border-color: rgba(255, 77, 79, 0.4);
+            color: #ff9c9e;
+        }
+
         button:hover {
             transform: translateY(-1px);
-            background: rgba(255, 255, 255, 0.14);
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
-        }
-
-        button.primary:hover {
-            background: linear-gradient(180deg, #5b8bff, #2f62e2);
-        }
-
-        button.danger:hover {
-            background: rgba(228, 85, 71, 0.98);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         button:active {
@@ -603,12 +718,26 @@
         }
 
         .action-bar {
-            padding: 10px;
+            padding: 8px 10px;
             display: flex;
             gap: 8px;
             border-bottom: 1px solid var(--border);
             background: rgba(255, 255, 255, 0.02);
             align-items: center;
+        }
+
+        .action-bar input[type="text"] {
+            height: 34px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            border-radius: var(--radius-md);
+        }
+
+        .action-bar button {
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            flex-shrink: 0;
         }
 
         .list-container {
@@ -647,21 +776,31 @@
         }
 
         .btn-action {
-            background: transparent;
-            border: none;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: var(--text-muted);
-            padding: 4px 8px;
             border-radius: 8px;
+            font-size: 0.75rem;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
         }
 
         .btn-action:hover {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.25);
         }
 
         .btn-add-schedule:hover {
-            color: #72e5a0;
-            background: rgba(114, 229, 160, 0.12);
+            color: #3ec06e;
+            background: rgba(62, 192, 110, 0.18);
+            border-color: rgba(62, 192, 110, 0.35);
         }
 
         .center-panel {
@@ -791,15 +930,23 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            width: 140px;
+            width: 130px;
+            flex-shrink: 0;
+            justify-content: center;
+        }
+
+        .deck-editor-controls button {
+            width: 100%;
+            justify-content: center;
         }
 
         .right-panel {
-            width: 300px;
+            width: 460px;
             display: flex;
             flex-direction: column;
             gap: 10px;
             flex-shrink: 0;
+            overflow-y: auto;
         }
 
         .preview-box,
@@ -812,7 +959,7 @@
         }
 
         .preview-box {
-            flex: 1;
+            flex: 1.3;
             border-bottom: 1px solid var(--border);
         }
 
@@ -820,21 +967,101 @@
             flex: 1;
         }
 
+        .preview-nav-bar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            padding: 6px 2px;
+        }
+
+        .preview-nav-bar select {
+            height: 32px;
+            padding: 4px 8px;
+            font-size: 0.76rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .preview-thumb-strip {
+            display: flex;
+            gap: 6px;
+            padding: 6px 2px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: thin;
+            max-width: 100%;
+            min-height: 48px;
+            align-items: center;
+        }
+
+        .preview-thumb-strip::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .preview-thumb-strip::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .preview-mini-thumb {
+            flex: 0 0 68px;
+            height: 38px;
+            aspect-ratio: 16/9;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 0.55rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.15s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .preview-mini-thumb:hover {
+            border-color: rgba(79, 127, 255, 0.85);
+            transform: translateY(-1px);
+        }
+
+        .preview-mini-thumb.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(78, 129, 255, 0.45);
+        }
+
+        .preview-mini-thumb .mini-num {
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            font-size: 0.52rem;
+            font-weight: 800;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 1px 4px;
+            border-radius: 4px;
+            z-index: 5;
+            color: #fff;
+        }
+
         /* Compact preview monitor controls so the preview screen is more visible */
         .preview-controls {
-            padding: 6px;
-            gap: 6px;
+            padding: 8px;
+            gap: 8px;
             align-items: stretch;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.03);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .preview-controls button,
         .preview-controls select {
             padding: 6px 10px;
-            font-size: 0.74rem;
+            font-size: 0.76rem;
             border-radius: 8px;
-            min-height: 28px;
+            height: 32px;
+            min-height: 32px;
             border: 1px solid rgba(255, 255, 255, 0.12);
             background: rgba(255, 255, 255, 0.08);
             color: var(--text-main);
@@ -842,15 +1069,34 @@
 
         .preview-controls button:hover,
         .preview-controls select:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
         }
 
-        .preview-controls .btn-fit,
+        .preview-controls .btn-fit {
+            width: 100%;
+        }
+
         .preview-controls .btn-live-cta {
             width: 100%;
-            background: rgba(79, 127, 255, 0.16);
-            border-color: rgba(79, 127, 255, 0.24);
-            color: var(--text-main);
+            height: 38px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .modal-footer button,
+        .modal-footer a {
+            min-width: 90px;
         }
 
         .preview-controls .control-row {
@@ -861,16 +1107,16 @@
         .screen-container {
             width: 100%;
             aspect-ratio: 16/9;
-            max-height: 145px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
+            max-height: 330px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
             background: linear-gradient(180deg, #0f1420, #0c101d 60%, #121a28);
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 8px 20px rgba(0, 0, 0, 0.28);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 12px 30px rgba(0, 0, 0, 0.35);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
             margin: 4px 0;
         }
@@ -965,6 +1211,45 @@
         .modal-content textarea {
             height: 120px;
             resize: none;
+        }
+
+        .bible-modal-content {
+            width: 520px;
+        }
+
+        .bible-smart-search input {
+            width: 100%;
+            font-size: 0.9rem;
+            padding: 10px 14px;
+            background: rgba(78, 129, 255, 0.08);
+            border-color: rgba(78, 129, 255, 0.3);
+            border-radius: var(--radius-md);
+        }
+
+        .bible-quick-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 2px 0;
+        }
+
+        .bible-chip {
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .bible-chip:hover {
+            color: var(--text-main);
+            background: rgba(78, 129, 255, 0.22);
+            border-color: rgba(78, 129, 255, 0.45);
+            transform: translateY(-1px);
         }
 
         .bible-search-grid {
@@ -1227,10 +1512,10 @@
                 <option value="solid-black">Pitch Black</option>
                 <option value="gradient-blue">Ocean Gradient</option>
             </select>
-            <button class="ghost" onclick="openThemeManagerModal()">Themes</button>
-            <button class="ghost" id="extendedBtn" onclick="toggleExtendedScreenTwice()">Stage Display</button>
-            <button class="primary" id="donateBtn" onclick="openDonate()" title="Support this project">Support</button>
-            <button class="secondary" id="feedbackBtn" onclick="openFeedbackModal()">Feedback</button>
+            <button class="btn-sm ghost" onclick="openThemeManagerModal()">Themes</button>
+            <button class="btn-sm ghost" id="extendedBtn" onclick="toggleExtendedScreenTwice()">Stage Display</button>
+            <button class="btn-sm primary" id="donateBtn" onclick="openDonate()" title="Support this project">Support</button>
+            <button class="btn-sm secondary" id="feedbackBtn" onclick="openFeedbackModal()">Feedback</button>
         </div>
     </header>
 
@@ -1247,8 +1532,8 @@
                 <div class="action-bar">
                     <input type="text" id="searchBox" placeholder="Quick Search..." oninput="filterActiveDatabase()"
                         style="flex:1;">
-                    <button id="addLibraryBtn" onclick="openEditorModal()">+ New</button>
-                    <button id="bibleSearchBtn" onclick="openBibleSearchModal()" style="display:none;">Search
+                    <button id="addLibraryBtn" class="btn-sm primary" onclick="openEditorModal()">+ New</button>
+                    <button id="bibleSearchBtn" class="btn-sm primary" onclick="openBibleSearchModal()" style="display:none;">Search
                         Scripture</button>
                     <!-- PowerPoint File Input -->
                     <input type="file" id="pptxFileInput" accept=".pptx" style="display:none;"
@@ -1261,8 +1546,7 @@
             <div class="schedule-section">
                 <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center;">
                     <span>Service Order</span>
-                    <button onclick="clearWholeSchedule()" style="padding: 2px 6px; font-size: 0.75rem;">Clear
-                        All</button>
+                    <button onclick="clearWholeSchedule()" class="btn-xs btn-subtle-danger">Clear All</button>
                 </div>
                 <div class="list-container" id="scheduleList" style="background: #15151b;"></div>
             </div>
@@ -1287,10 +1571,8 @@
                         placeholder="Select a slide above to edit its live text properties..."
                         oninput="updateActiveSlideTextLive()"></textarea>
                     <div class="deck-editor-controls">
-                        <button id="editorAddBtn" onclick="addNewSlideToDeck()"
-                            style="background: #28a745; border-color: #218838;">+ Add Slide</button>
-                        <button id="editorDelBtn" onclick="deleteCurrentSlideFromDeck()"
-                            style="background: #dc3545; border-color: #bd2130;">Delete Slide</button>
+                        <button id="editorAddBtn" class="btn-sm success btn-block" onclick="addNewSlideToDeck()">+ Add Slide</button>
+                        <button id="editorDelBtn" class="btn-sm danger btn-block" onclick="deleteCurrentSlideFromDeck()">Delete Slide</button>
                     </div>
                 </div>
             </div>
@@ -1301,14 +1583,31 @@
         <!-- Monitoring Pipeline Panels -->
         <div class="right-panel">
             <div class="preview-box">
-                <div class="panel-header">Preview Monitor</div>
+                <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>Preview Monitor</span>
+                    <span id="previewSlideCounter"
+                        style="font-size:0.75rem; font-weight:700; color:var(--text-muted); background:rgba(255,255,255,0.08); padding:2px 8px; border-radius:12px;">Slide 0 / 0</span>
+                </div>
                 <div class="screen-container" id="previewWindow">
                     <div class="slide-render-layer" id="previewSlideRender"></div>
                     <div class="screen-text" id="previewText"></div>
                 </div>
+
+                <!-- Slide Navigation Control Bar -->
+                <div class="preview-nav-bar">
+                    <button class="btn-sm secondary" onclick="prevPreviewSlide()" title="Previous Slide (Left Arrow)">◄ Prev</button>
+                    <select id="previewSlideSelect" style="flex:1;" onchange="onPreviewSlideSelectChange(this.value)">
+                        <option value="0">No slides loaded</option>
+                    </select>
+                    <button class="btn-sm secondary" onclick="nextPreviewSlide()" title="Next Slide (Right Arrow)">Next ►</button>
+                </div>
+
+                <!-- Mini Slide Thumbnail Strip -->
+                <div class="preview-thumb-strip" id="previewThumbStrip"></div>
+
                 <div class="action-bar preview-controls" style="flex-direction:column; align-items:stretch;">
-                    <button id="btnFitScreen" class="btn-fit" onclick="toggleFitMode()">Smart Fit: On</button>
                     <div class="control-row">
+                        <button id="btnFitScreen" class="btn-fit btn-sm primary" style="flex:1;" onclick="toggleFitMode()">Smart Fit: On</button>
                         <select id="fontSizeSelect" style="flex:1;" onchange="applyFontSettings()">
                             <option value="tiny">Font: Tiny</option>
                             <option value="small">Font: Small</option>
@@ -1323,7 +1622,7 @@
                             <option value="monospace">Type: Mono</option>
                         </select>
                     </div>
-                    <button id="btnToggleLive" class="btn-live-cta" style="transition: background 0.2s;"
+                    <button id="btnToggleLive" class="btn-live-cta btn-md primary btn-block"
                         onclick="toggleLiveState()">Go Live (F5)</button>
                 </div>
             </div>
@@ -1334,7 +1633,7 @@
                     <div class="slide-render-layer" id="liveSlideRender"></div>
                     <div class="screen-text" id="liveText"></div>
                 </div>
-                <div class="action-bar"><button style="background: #444; width:100%;" onclick="killLiveScreen()">Clear
+                <div class="action-bar" style="padding: 8px;"><button class="btn-sm danger btn-block" onclick="killLiveScreen()">Clear
                         Output</button></div>
             </div>
         </div>
@@ -1384,31 +1683,69 @@
             <input type="text" id="entryTitle" placeholder="Title or reference">
             <textarea id="entryContent"
                 placeholder="Enter content for the slide deck. Use blank lines to separate slides."></textarea>
-            <div style="display:flex; gap:10px; justify-content: flex-end;">
-                <button onclick="closeEditorModal()" style="background:#555;">Cancel</button>
-                <button onclick="saveResourceEntry()" style="background:var(--accent);">Save to Library</button>
+            <div class="modal-footer">
+                <button class="btn-md secondary" onclick="closeEditorModal()">Cancel</button>
+                <button class="btn-md primary" onclick="saveResourceEntry()">Save to Library</button>
             </div>
         </div>
     </div>
 
-    <!-- KJV Bible Search Modal -->
+    <!-- Modernized Bible Search Modal -->
     <div class="modal" id="bibleModal" onkeydown="handleBibleModalKeydown(event)">
-        <div class="modal-content">
-            <h3>KJV Bible Search</h3>
+        <div class="modal-content bible-modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>📖 Scripture Search</h3>
+                <select id="bibleTranslationSelect" style="padding:4px 8px; font-size:0.75rem; border-radius:8px;">
+                    <option value="kjv" selected>KJV (King James)</option>
+                    <option value="web">WEB (World English)</option>
+                    <option value="bbe">BBE (Basic English)</option>
+                    <option value="clem">CLEM (Latin Vulgate)</option>
+                </select>
+            </div>
+
+            <!-- Smart Quick Search Input -->
+            <div class="bible-smart-search">
+                <input type="text" id="bibleQuickInput" placeholder="⚡ Smart Quick Search (e.g. John 3:16-18, Ps 23, Gen 1:1)..."
+                    oninput="handleBibleQuickSearchInput(this.value)" autocomplete="off">
+            </div>
+
+            <!-- Popular Quick Passage Chips -->
+            <div class="bible-quick-chips">
+                <span class="bible-chip" onclick="quickSelectPassage('John 3:16-18')">John 3:16-18</span>
+                <span class="bible-chip" onclick="quickSelectPassage('Psalm 23:1-6')">Psalm 23:1-6</span>
+                <span class="bible-chip" onclick="quickSelectPassage('Romans 8:28')">Romans 8:28</span>
+                <span class="bible-chip" onclick="quickSelectPassage('Philippians 4:13')">Phil 4:13</span>
+                <span class="bible-chip" onclick="quickSelectPassage('1 Cor 13:4-8')">1 Cor 13:4-8</span>
+            </div>
+
+            <!-- Traditional Search Fields -->
             <div class="bible-search-grid">
                 <div class="bible-book-search full-span">
-                    <input type="text" id="bibleBookInput" placeholder="Type book name (e.g. John, Romans)..."
+                    <input type="text" id="bibleBookInput" placeholder="Book Name (e.g. John, Genesis)..."
                         autocomplete="off" oninput="filterBibleBooks()" onfocus="showBibleSuggestions()"
                         onblur="hideBibleSuggestionsDelayed()">
                     <div id="bibleBookSuggestions" class="bible-book-suggestions"></div>
                 </div>
-                <input type="number" id="bibleChapterInput" min="1" placeholder="Chapter (Tab)">
-                <input type="number" id="bibleVerseInput" min="1" placeholder="Start Verse (Tab)">
+                <input type="number" id="bibleChapterInput" min="1" placeholder="Chapter">
+                <input type="number" id="bibleVerseInput" min="1" placeholder="Start Verse">
                 <input type="number" id="bibleEndVerseInput" min="1" placeholder="End Verse (optional)">
             </div>
-            <div style="display:flex; gap:10px; justify-content: flex-end;">
-                <button onclick="closeBibleSearchModal()" style="background:#555;">Cancel</button>
-                <button onclick="searchBiblePassage()" style="background:var(--accent);">Search KJV</button>
+
+            <!-- Multi-Verse Presentation Options -->
+            <div class="bible-options-row" style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); padding:8px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+                <label style="font-size:0.78rem; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer;">
+                    <input type="checkbox" id="bibleSplitCheck" checked style="accent-color:var(--accent);">
+                    <span>1 Verse per Slide (Recommended)</span>
+                </label>
+                <label style="font-size:0.78rem; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer;">
+                    <input type="checkbox" id="bibleVerseNumCheck" checked style="accent-color:var(--accent);">
+                    <span>Show Verse Numbers (v16, v17...)</span>
+                </label>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-md secondary" onclick="closeBibleSearchModal()">Cancel</button>
+                <button class="btn-md primary" onclick="searchBiblePassage()">Search Scripture</button>
             </div>
         </div>
     </div>
@@ -1417,16 +1754,15 @@
     <div class="modal" id="themeModal">
         <div class="modal-content">
             <h3>Theme Manager</h3>
-            <button onclick="document.getElementById('themeFileInput').click()"
-                style="background: var(--accent); width: 100%;">+ Upload New Video/Image Theme</button>
+            <button class="btn-md primary btn-block" onclick="document.getElementById('themeFileInput').click()">+ Upload New Video/Image Theme</button>
             <input type="file" id="themeFileInput" accept="video/*,image/*" style="display:none;"
                 onchange="handleThemeUpload(event)">
             <div style="font-size:0.85rem; margin-top:10px; font-weight:bold; color:var(--text-muted)">Uploaded Custom
                 Themes:</div>
             <div id="customThemeList"
                 style="max-height: 200px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;"></div>
-            <div style="display:flex; justify-content: flex-end; margin-top:10px;">
-                <button onclick="closeThemeManagerModal()" style="background:#555;">Close</button>
+            <div class="modal-footer">
+                <button class="btn-md secondary" onclick="closeThemeManagerModal()">Close</button>
             </div>
         </div>
     </div>
@@ -1447,12 +1783,11 @@
                 <div><strong>Account No.:</strong> 8091509041</div>
                 <div><strong>Bank Name:</strong> OPAY</div>
             </div>
-            <div style="display:flex; gap:10px; justify-content: flex-end; flex-wrap: wrap;">
-                <button onclick="copySupportDetails()" style="background:var(--accent);">Copy Details</button>
+            <div class="modal-footer">
+                <button class="btn-md primary" onclick="copySupportDetails()">Copy Details</button>
                 <a href="mailto:?subject=Support%20SAMDEV%20Studio&body=Account%20Name%3A%20Adebayo%20Samuel%20Oluwaseun%0AAccount%20No.%3A%208091509041%0ABank%20Name%3A%20OPAY"
-                    style="display:inline-flex; align-items:center; justify-content:center; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,0.08); color: var(--text-main); text-decoration:none; border: 1px solid rgba(255,255,255,0.12);">Email
-                    Details</a>
-                <button onclick="closeSupportModal()" style="background:#555;">Close</button>
+                    class="btn-md secondary" style="text-decoration:none;">Email Details</a>
+                <button class="btn-md secondary" onclick="closeSupportModal()">Close</button>
             </div>
         </div>
     </div>
@@ -1471,9 +1806,9 @@
             </div>
             <input type="text" id="fbEmail" placeholder="Your email (optional)">
             <textarea id="fbMessage" placeholder="Describe your feedback or issue in detail..."></textarea>
-            <div style="display:flex; gap:10px; justify-content: flex-end;">
-                <button onclick="closeFeedbackModal()" style="background:#555;">Cancel</button>
-                <button onclick="submitFeedback()" style="background:var(--accent);">Send Feedback</button>
+            <div class="modal-footer">
+                <button class="btn-md secondary" onclick="closeFeedbackModal()">Cancel</button>
+                <button class="btn-md primary" onclick="submitFeedback()">Send Feedback</button>
             </div>
         </div>
     </div>
@@ -1637,8 +1972,8 @@
 
             const LEFT_MIN = 220;
             const LEFT_MAX = 520;
-            const RIGHT_MIN = 260;
-            const RIGHT_MAX = 560;
+            const RIGHT_MIN = 320;
+            const RIGHT_MAX = 850;
 
             function stopResize() {
                 document.body.classList.remove('resizing');
@@ -1963,14 +2298,56 @@
         function closeEditorModal() { document.getElementById('editorModal').classList.remove('open'); }
 
         function openBibleSearchModal() {
+            if (document.getElementById('bibleQuickInput')) document.getElementById('bibleQuickInput').value = '';
             document.getElementById('bibleBookInput').value = '';
             document.getElementById('bibleChapterInput').value = '';
             document.getElementById('bibleVerseInput').value = '';
             document.getElementById('bibleEndVerseInput').value = '';
             document.getElementById('bibleModal').classList.add('open');
-            setTimeout(() => document.getElementById('bibleBookInput').focus(), 50);
+            setTimeout(() => {
+                const el = document.getElementById('bibleQuickInput') || document.getElementById('bibleBookInput');
+                if (el) el.focus();
+            }, 50);
         }
         function closeBibleSearchModal() { document.getElementById('bibleModal').classList.remove('open'); }
+
+        function handleBibleQuickSearchInput(val) {
+            const parsed = parseSmartScriptureRef(val);
+            if (parsed) {
+                document.getElementById('bibleBookInput').value = parsed.book;
+                document.getElementById('bibleChapterInput').value = parsed.chapter;
+                document.getElementById('bibleVerseInput').value = parsed.startVerse;
+                document.getElementById('bibleEndVerseInput').value = parsed.endVerse;
+            }
+        }
+
+        function quickSelectPassage(ref) {
+            const input = document.getElementById('bibleQuickInput');
+            if (input) input.value = ref;
+            handleBibleQuickSearchInput(ref);
+            searchBiblePassage();
+        }
+
+        function parseSmartScriptureRef(query) {
+            query = query.trim();
+            if (!query) return null;
+
+            const match = query.match(/^((?:\d\s+)?[A-Za-z\s]+?)\s+(\d+)(?:[\s:]+(\d+)(?:\s*[-–—]\s*(\d+))?)?$/);
+            if (match) {
+                let bookName = match[1].trim();
+                const lowerBook = bookName.toLowerCase();
+                const matchedFullBook = kjvBooks.find(b => b.toLowerCase() === lowerBook || b.toLowerCase().startsWith(lowerBook));
+                if (matchedFullBook) bookName = matchedFullBook;
+
+                return {
+                    book: bookName,
+                    chapter: match[2] || '',
+                    startVerse: match[3] || '',
+                    endVerse: match[4] || ''
+                };
+            }
+            return null;
+        }
 
         function filterBibleBooks() {
             const input = document.getElementById('bibleBookInput');
@@ -2019,28 +2396,19 @@
         }
 
         function handleBibleModalKeydown(e) {
-            if (e.key === 'Tab') {
-                const bookInput = document.getElementById('bibleBookInput');
-                if (document.activeElement === bookInput) {
-                    e.preventDefault();
-                    if (bookInput.value.trim()) {
-                        // Autocomplete to first matching book if possible
-                        const q = bookInput.value.toLowerCase().trim();
-                        const match = kjvBooks.find(b => b.toLowerCase().includes(q));
-                        if (match) bookInput.value = match;
-                    }
-                    document.getElementById('bibleChapterInput').focus();
-                }
-            }
             if (e.key === 'Enter') {
-                const active = document.getElementById('bibleBookSuggestions').querySelector('.bible-book-suggestion');
+                if (document.activeElement === document.getElementById('bibleQuickInput')) {
+                    e.preventDefault();
+                    searchBiblePassage();
+                    return;
+                }
+                const active = document.getElementById('bibleBookSuggestions')?.querySelector('.bible-book-suggestion');
                 if (active && document.activeElement === document.getElementById('bibleBookInput')) {
                     e.preventDefault();
                     selectBibleBook(active.textContent);
                     return;
                 }
-                // Enter to search if chapter filled
-                if (document.getElementById('bibleChapterInput').value.trim()) {
+                if (document.getElementById('bibleChapterInput').value.trim() || document.getElementById('bibleBookInput').value.trim()) {
                     e.preventDefault();
                     searchBiblePassage();
                 }
@@ -2048,14 +2416,27 @@
         }
 
         async function searchBiblePassage() {
-            const book = document.getElementById('bibleBookInput').value.trim();
-            const chapter = document.getElementById('bibleChapterInput').value.trim();
-            const startVerse = document.getElementById('bibleVerseInput').value.trim();
-            const endVerse = document.getElementById('bibleEndVerseInput').value.trim();
+            let book = document.getElementById('bibleBookInput').value.trim();
+            let chapter = document.getElementById('bibleChapterInput').value.trim();
+            let startVerse = document.getElementById('bibleVerseInput').value.trim();
+            let endVerse = document.getElementById('bibleEndVerseInput').value.trim();
+
+            const quickInputVal = document.getElementById('bibleQuickInput')?.value.trim();
+            if ((!book || !chapter) && quickInputVal) {
+                const parsed = parseSmartScriptureRef(quickInputVal);
+                if (parsed) {
+                    book = parsed.book;
+                    chapter = parsed.chapter;
+                    startVerse = parsed.startVerse;
+                    endVerse = parsed.endVerse;
+                }
+            }
 
             if (!book || !chapter) {
-                return alert('Please type a book name and enter a chapter for your KJV search.');
+                return alert('Please enter a book name and chapter (or type a passage like "John 3:16").');
             }
+
+            const translation = document.getElementById('bibleTranslationSelect')?.value || 'kjv';
 
             let reference = `${book} ${chapter}`;
             if (startVerse) {
@@ -2063,22 +2444,46 @@
             }
 
             try {
-                const response = await fetch(`https://bible-api.com/${encodeURIComponent(reference)}?translation=kjv`);
+                showToast(`Searching scripture: ${reference}...`, 'info', 2000);
+                const response = await fetch(`https://bible-api.com/${encodeURIComponent(reference)}?translation=${translation}`);
                 const data = await response.json();
-                const verseText = data.text || data.error || '';
-                if (!verseText) throw new Error('No KJV results found for that reference.');
+
+                if (data.error || (!data.text && (!data.verses || data.verses.length === 0))) {
+                    throw new Error(data.error || 'No scripture verses found for that reference.');
+                }
 
                 const verseTitle = data.reference || reference;
-                const lines = verseText
-                    .split(/\n+/)
-                    .map(line => line.trim())
-                    .filter(Boolean);
+                const transLabel = translation.toUpperCase();
+                const splitPerVerse = document.getElementById('bibleSplitCheck')?.checked ?? true;
+                const showVerseNums = document.getElementById('bibleVerseNumCheck')?.checked ?? true;
+
+                let slides = [];
+
+                if (data.verses && Array.isArray(data.verses) && data.verses.length > 0) {
+                    if (splitPerVerse && data.verses.length > 1) {
+                        slides = data.verses.map(v => {
+                            const vNum = v.verse;
+                            const vText = v.text.trim();
+                            const vHeader = `${v.book_name} ${v.chapter}:${vNum}`;
+                            const numPrefix = showVerseNums ? `v${vNum}. ` : '';
+                            return `${vHeader}\n\n${numPrefix}${vText}`;
+                        });
+                    } else {
+                        const combinedText = data.verses.map(v => {
+                            const numPrefix = showVerseNums ? `v${v.verse}. ` : '';
+                            return `${numPrefix}${v.text.trim()}`;
+                        }).join('\n\n');
+                        slides = [combinedText];
+                    }
+                } else {
+                    slides = [data.text ? data.text.trim() : ''];
+                }
 
                 const newAsset = {
                     id: Date.now(),
                     type: 'scripture',
-                    title: `${verseTitle} (KJV)`,
-                    lines: [verseText.trim()]
+                    title: `${verseTitle} (${transLabel})`,
+                    lines: slides
                 };
 
                 appDatastore.scripture.push(newAsset);
@@ -2086,9 +2491,10 @@
                 closeBibleSearchModal();
                 renderResourceSidebar();
                 loadItemToDesk(newAsset.id, 'scripture');
+                showToast(`Loaded ${verseTitle} (${slides.length} slide${slides.length > 1 ? 's' : ''})`, 'success');
             } catch (error) {
                 console.error(error);
-                alert('Unable to load the KJV passage right now. Please check the book, chapter, and verse fields and try again.');
+                alert(`Unable to load ${reference}. Please check the book name and verse range and try again.`);
             }
         }
 
@@ -2250,7 +2656,7 @@
                 row.className = 'theme-manager-row';
                 row.innerHTML = `
                     <span style="font-size:0.8rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:280px;">${customThemes[key].name} (${customThemes[key].type})</span>
-                    <button style="background:#552222; border:none; color:#ff8888; padding:2px 6px; font-size:0.75rem;" onclick="deleteCustomTheme('${key}')">Remove</button>
+                    <button class="btn-xs btn-subtle-danger" onclick="deleteCustomTheme('${key}')">Remove</button>
                 `;
                 container.appendChild(row);
             });
@@ -2386,7 +2792,8 @@
             autoFitEnabled = !autoFitEnabled;
             const btn = document.getElementById('btnFitScreen');
             btn.innerText = `Smart Fit: ${autoFitEnabled ? 'On' : 'Off'}`;
-            btn.style.backgroundColor = autoFitEnabled ? 'var(--accent)' : '#555';
+            btn.className = `btn-fit btn-sm ${autoFitEnabled ? 'primary' : 'secondary'} btn-block`;
+            btn.style.backgroundColor = '';
 
             updatePreviewMonitor();
             if (isLiveActive) syncLiveOutputChannel();
@@ -2399,7 +2806,10 @@
             const previewText = document.getElementById('previewText');
             const previewWindow = document.getElementById('previewWindow');
             const previewRender = document.getElementById('previewSlideRender');
-            previewRender.innerHTML = '';
+            if (previewRender) previewRender.innerHTML = '';
+
+            // Inject background theme so preview monitor reflects exact live look
+            injectThemeBackground(previewWindow, activeThemeConfig);
 
             previewWindow.classList.add('is-transitioning');
             clearTimeout(window.previewTransitionTimer);
@@ -2424,7 +2834,96 @@
                 }
             }
 
+            updatePreviewThumbStrip();
             updateDeckEditorTextDisplay();
+        }
+
+        function prevPreviewSlide() {
+            if (!currentItem || currentItem.lines.length === 0) return;
+            if (selectedSlideIdx > 0) {
+                selectedSlideIdx--;
+                updatePreviewMonitor();
+                if (isLiveActive) triggerLiveAction();
+            }
+        }
+
+        function nextPreviewSlide() {
+            if (!currentItem || currentItem.lines.length === 0) return;
+            if (selectedSlideIdx < currentItem.lines.length - 1) {
+                selectedSlideIdx++;
+                updatePreviewMonitor();
+                if (isLiveActive) triggerLiveAction();
+            }
+        }
+
+        function onPreviewSlideSelectChange(val) {
+            const idx = parseInt(val, 10);
+            if (!isNaN(idx) && currentItem && idx >= 0 && idx < currentItem.lines.length) {
+                selectedSlideIdx = idx;
+                updatePreviewMonitor();
+                if (isLiveActive) triggerLiveAction();
+            }
+        }
+
+        function updatePreviewThumbStrip() {
+            const strip = document.getElementById('previewThumbStrip');
+            const select = document.getElementById('previewSlideSelect');
+            const counter = document.getElementById('previewSlideCounter');
+            if (!strip || !select || !counter) return;
+
+            strip.innerHTML = '';
+            select.innerHTML = '';
+
+            if (!currentItem || currentItem.lines.length === 0) {
+                counter.innerText = 'Slide 0 / 0';
+                const opt = document.createElement('option');
+                opt.value = 0;
+                opt.text = 'No slides loaded';
+                select.appendChild(opt);
+                return;
+            }
+
+            counter.innerText = `Slide ${selectedSlideIdx + 1} / ${currentItem.lines.length}`;
+
+            currentItem.lines.forEach((lineText, idx) => {
+                const snippet = lineText.replace(/\n/g, ' ').substring(0, 24);
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.selected = (idx === selectedSlideIdx);
+                opt.text = `${idx + 1}. ${snippet}${lineText.length > 24 ? '...' : ''}`;
+                select.appendChild(opt);
+
+                const thumb = document.createElement('div');
+                thumb.className = `preview-mini-thumb ${idx === selectedSlideIdx ? 'active' : ''}`;
+
+                injectThemeBackground(thumb, activeThemeConfig);
+
+                const numSpan = document.createElement('span');
+                numSpan.className = 'mini-num';
+                numSpan.innerText = idx + 1;
+
+                const textSpan = document.createElement('div');
+                textSpan.className = 'slide-content-text';
+                textSpan.style.fontSize = '0.55rem';
+                textSpan.style.lineHeight = '1.1';
+                textSpan.innerText = lineText.substring(0, 18);
+
+                thumb.appendChild(numSpan);
+                thumb.appendChild(textSpan);
+
+                thumb.onclick = () => {
+                    selectedSlideIdx = idx;
+                    updatePreviewMonitor();
+                    if (isLiveActive) triggerLiveAction();
+                };
+
+                strip.appendChild(thumb);
+            });
+
+            const activeThumb = strip.children[selectedSlideIdx];
+            if (activeThumb) {
+                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
         }
 
         function toggleLiveState() {
@@ -2448,7 +2947,8 @@
 
             if (isLiveActive) {
                 toggleBtn.innerText = "Cut Live Stream (F5)";
-                toggleBtn.style.backgroundColor = "var(--accent-live-active)";
+                toggleBtn.className = "btn-live-cta btn-md danger btn-block";
+                toggleBtn.style.backgroundColor = "";
                 liveBox.classList.add('active-air');
                 liveHeader.innerText = "Live Channel Output (ON AIR)";
                 liveHeader.style.color = "var(--accent-live-active)";
@@ -2460,7 +2960,8 @@
                 document.querySelector('.screen-container#liveWindow').style.animation = 'screenPulse 1.4s infinite';
             } else {
                 toggleBtn.innerText = "Go Live (F5)";
-                toggleBtn.style.backgroundColor = "var(--accent)";
+                toggleBtn.className = "btn-live-cta btn-md primary btn-block";
+                toggleBtn.style.backgroundColor = "";
                 liveBox.classList.remove('active-air');
                 liveHeader.innerText = "Live Channel Output (OFF AIR)";
                 liveHeader.style.color = "var(--text-muted)";
@@ -2609,16 +3110,27 @@
         }
 
         window.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
             if (e.key === 'F5') { e.preventDefault(); toggleLiveState(); }
             if (e.key === 'F8') { e.preventDefault(); toggleExtendedScreenTwice(); }
             if (e.key === 'Escape' && isLiveActive) { e.preventDefault(); killLiveScreen(); }
 
             if (isLiveActive) {
-                if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-                    if (liveSlideIdx < liveDeck.length - 1) { liveSlideIdx++; syncLiveOutputChannel(); }
+                if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'ArrowRight') {
+                    if (liveSlideIdx < liveDeck.length - 1) { liveSlideIdx++; selectedSlideIdx = liveSlideIdx; syncLiveOutputChannel(); updatePreviewMonitor(); }
                 }
-                if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-                    if (liveSlideIdx > 0) { liveSlideIdx--; syncLiveOutputChannel(); }
+                if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'ArrowLeft') {
+                    if (liveSlideIdx > 0) { liveSlideIdx--; selectedSlideIdx = liveSlideIdx; syncLiveOutputChannel(); updatePreviewMonitor(); }
+                }
+            } else if (currentItem && currentItem.lines.length > 0) {
+                if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    nextPreviewSlide();
+                }
+                if (e.key === 'ArrowUp' || e.key === 'PageUp' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    prevPreviewSlide();
                 }
             }
         });

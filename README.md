@@ -8,13 +8,14 @@ An ultra-fast, modern, client-side web application built for church worship pres
 
 ## ✨ Features
 
-- 🎵 **Worship Song Library**: Create, organize, and present worship song lyrics with automatic text fitting and live slide switching.
-- 📖 **KJV Bible Search**: Built-in KJV Bible search engine with book autocompletion and passage fetching powered by `bible-api.com`.
+- 🎵 **Worship Song Library**: Create, edit, organize, and present worship song lyrics with automatic text fitting and live slide switching.
+- 📖 **Scripture Search**: Search passages by reference or Bible book, choose from multiple translations, and format verse slides for projection with `bible-api.com`.
 - 📊 **PowerPoint (.pptx) Extraction**: Import `.pptx` presentation files directly on the client side using pure JavaScript.
 - 🖥️ **Dual Monitor & Stage Display**: Open an extended broadcast window (`F8`) that syncs live output onto projectors or secondary screens.
 - 🔴 **Live Stream Control**: One-key live stream control (`F5`) with visual status indicators, pulsing ON AIR badges, and telemetry.
 - 🎨 **Theme & Layer Management**: Toggle between Pitch Black, Ocean Gradient, or custom uploaded image and video media layers.
 - 📐 **Resizable Professional Workspace**: Custom column width adjustment with draggable handles between panels.
+- 📱 **Responsive Workspace**: Adapt the resource library, slide editor, and preview monitors for desktop, tablet, and mobile screens.
 - ⏱️ **Live Clock & Telemetry Footer**: Fixed bottom footer displaying real-time system clock, active deck slide count, and stage display status.
 - 💾 **Offline Persistence**: Automatically saves your database, custom themes, and service schedule locally in `localStorage`.
 
